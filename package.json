@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "vue-verify-code": "^1.0.5"
+  }
+}

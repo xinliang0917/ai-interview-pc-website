@@ -1,0 +1,611 @@
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', 'Microsoft YaHei', sans-serif;
+  overflow-x: hidden;
+  height: 100vh;
+  background-color: #0a0f2c;
+  color: #fff;
+  /* 添加背景图 */
+  background: url('./images/bg.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+#app {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* 首页样式 */
+.home-page {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  /* 添加半透明遮罩层 */
+  background: rgba(10, 15, 44, 0.85);
+}
+
+.fullscreen-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0a0f2c 0%, #1a1e3a 100%);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullscreen-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bg-card-sheet {
+  position: absolute;
+  top: 200px;
+  left: 100px;
+  width: 850px;
+  height: 650px;
+  background: rgba(25, 30, 75, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(127, 255, 167, 0.15);
+  border-radius: 20px;
+  transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+  box-shadow: -30px 30px 50px rgba(0, 0, 0, 0.6), inset 0 0 50px rgba(127, 255, 167, 0.1);
+}
+
+.grid-overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(127, 255, 167, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127, 255, 167, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content-left {
+  padding-left: 120px;
+  max-width: 800px;
+}
+
+h1 {
+  font-size: 70px;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+  text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+  font-size: 36px;
+  color: #7fffa7;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.desc {
+  font-size: 20px;
+  color: #c0c4ff;
+  line-height: 1.7;
+  max-width: 600px;
+  margin-bottom: 50px;
+  font-weight: 300;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.start-btn {
+  background: linear-gradient(90deg, #B6EB63 0%, #3be6b2 100%);
+  color: #222;
+  border: none;
+  border-radius: 50px;
+  padding: 22px 50px;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 30px rgba(60, 255, 180, 0.4), 0 0 0 4px rgba(127, 255, 167, 0.3);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.start-btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: all 0.6s;
+}
+
+.start-btn:hover {
+  box-shadow: 0 12px 35px rgba(60, 255, 180, 0.6), 0 0 0 6px rgba(127, 255, 167, 0.4);
+  transform: translateY(-5px);
+}
+
+.start-btn:hover:before {
+  left: 100%;
+}
+
+.start-btn i {
+  transition: transform 0.3s ease;
+}
+
+.start-btn:hover i {
+  transform: translateX(8px);
+}
+
+/* 粒子效果 */
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(127, 255, 167, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* 登录注册背景还原为深色模糊 */
+.login-register-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: rgba(10, 15, 44, 0.7);
+  /* 可选：加模糊层 */
+  /* backdrop-filter: blur(10px); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-register-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.10);
+  padding: 48px 38px 32px 38px;
+  min-width: 340px;
+  width: 370px;
+  max-width: 96vw;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 32px;
+  color: #222;
+}
+
+.input-group {
+  margin-bottom: 26px;
+  display: flex;
+  align-items: center;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group input[type="email"] {
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  outline: none;
+  width: 100%;
+  font-size: 17px;
+  padding: 8px 0 8px 0;
+  background: transparent;
+  color: #222;
+  transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+  border-bottom: 2px solid #2be958;
+}
+
+.verify-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.verify-row input[type="text"] {
+  flex: 1;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 16px;
+  background: #fafbfc;
+  color: #222;
+  transition: border-color 0.2s;
+}
+
+.verify-row input[type="text"]:focus {
+  border-color: #2FC6AA;
+}
+
+.remember-row {
+  margin-top: -10px;
+  margin-bottom: 18px;
+  font-size: 15px;
+  color: #888;
+}
+
+.remember-row label {
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.main-btn {
+  width: 100%;
+  background: linear-gradient(90deg, #2FC6AA 0%, #B6EB63 100%);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 13px 0;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(47, 198, 170, 0.08);
+}
+
+.main-btn:hover {
+  background: linear-gradient(90deg, #2FC6AA 0%, #8aea04 100%);
+}
+
+.switch-tip {
+  text-align: center;
+  margin-top: 18px;
+  color: #888;
+  font-size: 15px;
+}
+
+.switch-tip a {
+  color: #2be958;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 4px;
+}
+
+.switch-tip a:hover {
+  color: #13f991;
+}
+
+.refresh-btn {
+  background: #e6fff6;
+  color: #2be958;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 2px;
+  transition: background 0.2s;
+}
+
+.refresh-btn:hover {
+  background: #c6fcd6;
+}
+
+.vue-verify-code {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+
+@media (max-width: 500px) {
+  .login-register-card {
+    padding: 18px 4vw 12px 4vw;
+    min-width: 0;
+    width: 98vw;
+  }
+}
+
+/* 个人信息页样式 */
+.profile-container {
+  padding: 20px;
+  min-height: 100vh;
+  background: #f8fcff;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 30px;
+  padding-top: 20px;
+}
+
+.profile-header h1 {
+  color: #000000;
+  font-size: 36px;
+}
+
+.profile-form {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: 16px;
+  padding: 36px 32px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 1;
+}
+
+.form-section {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.form-section h2 {
+  margin-bottom: 20px;
+  color: #000000;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #7fffa7;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 200px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group select,
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+textarea:focus {
+  border-color: #13f991;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(42, 109, 201, 0.2);
+}
+
+textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.add-btn {
+  background: #2be958;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.add-btn:hover {
+  background: #02cd72;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(35, 225, 121, 0.18);
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 30px auto 10px;
+  padding: 14px;
+  background: linear-gradient(90deg, #B6EB63 0%, #02b924 100%);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(35, 225, 121, 0.18);
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 1700px) {
+  .content-left {
+    padding-left: 80px;
+  }
+
+  h1 {
+    font-size: 60px;
+  }
+
+  .subtitle {
+    font-size: 32px;
+  }
+
+  .desc {
+    font-size: 22px;
+    max-width: 550px;
+  }
+
+  .bg-card-sheet {
+    width: 750px;
+    height: 600px;
+  }
+}
+
+@media (max-width: 992px) {
+  .content-left {
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 28px;
+  }
+
+  .bg-card-sheet {
+    display: none;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .profile-form {
+    padding: 20px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .start-btn {
+    padding: 18px 30px;
+    font-size: 18px;
+  }
+}
+
+/* 背景晕染层 */
+.bg-blur-ellipse {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.55;
+  border-radius: 50%;
+}
+
+.bg-blur-yellow {
+  width: 570px;
+  height: 285px;
+  left: 884px;
+  top: -115px;
+  background: #faffe0;
+}
+
+.bg-blur-blue {
+  width: 600px;
+  height: 300px;
+  left: 0;
+  top: 0;
+  background: #e0f7fa;
+}
+
+.bg-blur-green {
+  width: 400px;
+  height: 400px;
+  left: 200px;
+  top: 200px;
+  background: #d0ffe0;
+}
+
+.custom-code {
+  display: inline-block;
+  min-width: 48px;
+  height: 36px;
+  line-height: 36px;
+  margin-left: 8px;
+  background: #f6f6f6;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 18px;
+  color: #2FC6AA;
+  text-align: center;
+  letter-spacing: 4px;
+  font-family: 'Consolas', 'Menlo', 'Monaco', monospace;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+
+.custom-code:hover {
+  border-color: #2FC6AA;
+  color: #fff;
+  background: #2FC6AA;
+}
