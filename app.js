@@ -42,9 +42,8 @@ const HomePage = {
       }, 150);
 
       setTimeout(() => {
-        alert('欢迎使用讯飞AI面试服务！即将开始诊断您的简历...');
         this.$router.push('/login');
-      }, 500);
+      }, 1000);
     },
 
     initParticles() {
@@ -113,10 +112,11 @@ const LoginView = {
       },
       registerForm: {
         username: '',
+        phone: '',
         email: '',
         password: '',
         confirmPassword: '',
-        verifyCode: ''
+        verifyCode: '',
       },
       loginIdentifyCode: '',
       registerIdentifyCode: ''
@@ -125,6 +125,13 @@ const LoginView = {
   mounted() {
     this.refreshLoginCode();
     this.refreshRegisterCode();
+    // 自动填充
+    const remembered = JSON.parse(localStorage.getItem('rememberedUser') || '{}');
+    if (remembered.phoneOrUser && remembered.password) {
+      this.loginForm.phoneOrUser = remembered.phoneOrUser;
+      this.loginForm.password = remembered.password;
+      this.loginForm.remember = true;
+    }
   },
   methods: {
     // 生成随机验证码
@@ -158,8 +165,35 @@ const LoginView = {
         this.refreshLoginCode();
         return;
       }
-      localStorage.setItem('user', 'true');
-      this.$router.push('/profile');
+      // 发送登录请求到后端
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: this.loginForm.phoneOrUser,
+          password: this.loginForm.password
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            // 登录成功，保存 token 或用户信息
+            localStorage.setItem('user', JSON.stringify(data.user));
+            if (this.loginForm.remember) {
+              localStorage.setItem('rememberedUser', JSON.stringify({
+                phoneOrUser: this.loginForm.phoneOrUser,
+                password: this.loginForm.password
+              }));
+            } else {
+              localStorage.removeItem('rememberedUser');
+            }
+            this.$router.push('/profile');
+          } else {
+            alert(data.message || '登录失败');
+            this.refreshLoginCode();
+          }
+        })
+        .catch(() => alert('登录请求失败'));
     },
     handleRegister() {
       if (!this.registerForm.username || !this.registerForm.email || !this.registerForm.password || !this.registerForm.confirmPassword || !this.registerForm.verifyCode) {
@@ -175,8 +209,38 @@ const LoginView = {
         this.refreshRegisterCode();
         return;
       }
-      alert('注册成功，请登录');
-      this.showLogin = true;
+      // 新增手机号和邮箱正则校验
+      const phoneReg = /^1[3-9]\d{9}$/;
+      const emailReg = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+      if (!phoneReg.test(this.registerForm.phone)) {
+        alert('请输入有效的手机号');
+        return;
+      }
+      if (!emailReg.test(this.registerForm.email)) {
+        alert('请输入有效的邮箱');
+        return;
+      }
+      // 发送注册请求到后端
+      fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: this.registerForm.username,
+          phone: this.registerForm.phone,
+          email: this.registerForm.email,
+          password: this.registerForm.password
+        })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert('注册成功，请登录');
+            this.showLogin = true;
+          } else {
+            alert(data.message || '注册失败');
+          }
+        })
+        .catch(() => alert('注册请求失败'));
     }
   },
   template: `
@@ -211,6 +275,9 @@ const LoginView = {
           </div>
           <div class="input-group">
             <input type="email" v-model="registerForm.email" placeholder="邮箱">
+          </div>
+          <div class="input-group">
+            <input type="tel" v-model="registerForm.phone" placeholder="手机号">
           </div>
           <div class="input-group">
             <input type="password" v-model="registerForm.password" placeholder="密码">
@@ -248,11 +315,11 @@ const ProfileView = {
           <h2>基础信息</h2>
           <div class="form-row">
             <div class="form-group">
-              <label>姓名</label>
+              <label>姓名<span style="color: #f56c6c">*</span></label>
               <input type="text" v-model="userInfo.name" placeholder="填写你的名字">
             </div>
             <div class="form-group">
-              <label>性别</label>
+              <label>性别<span style="color: #f56c6c">*</span></label>
               <select v-model="userInfo.gender">
                 <option value="">选择你的性别</option>
                 <option value="male">男</option>
@@ -260,7 +327,7 @@ const ProfileView = {
               </select>
             </div>
             <div class="form-group">
-              <label>出生日期</label>
+              <label>出生日期<span style="color: #f56c6c">*</span></label>
               <input type="date" v-model="userInfo.birthDate">
             </div>
           </div>
@@ -270,11 +337,11 @@ const ProfileView = {
           <div class="education-group" v-for="(edu, index) in userInfo.educations" :key="index">
             <div class="form-row">
               <div class="form-group">
-                <label>学校</label>
+                <label>学校<span style="color: #f56c6c">*</span></label>
                 <input type="text" v-model="edu.school" placeholder="填写你的学校">
               </div>
               <div class="form-group">
-                <label>学历</label>
+                <label>学历<span style="color: #f56c6c">*</span></label>
                 <select v-model="edu.degree">
                   <option value="">选择学历</option>
                   <option value="bachelor">本科</option>
@@ -285,7 +352,7 @@ const ProfileView = {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label>开始时间</label>
+                <label>年份<span style="color: #f56c6c">*</span></label>
                 <input type="month" v-model="edu.startDate">
               </div>
               <div class="form-group">
@@ -353,7 +420,7 @@ const ProfileView = {
           <button class="add-btn" @click="addAward">+ 添加奖项</button>
         </div>
         <button class="submit-btn" @click="submitProfile">
-          提交并进入简历诊断
+          进入首页
         </button>
       </div>
     </div>
