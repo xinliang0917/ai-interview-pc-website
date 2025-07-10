@@ -241,6 +241,23 @@ const LoginView = {
           }
         })
         .catch(() => alert('注册请求失败'));
+    },
+    fillTestAccount() {
+      this.registerForm.username = 'testuser';
+      this.registerForm.phone = '13800138000';
+      this.registerForm.email = 'test@163.com';
+      this.registerForm.password = '123456';
+      this.registerForm.confirmPassword = '123456';
+      this.registerForm.verifyCode = this.registerIdentifyCode;
+    },
+    testLogin() {
+      // 直接设置本地登录状态，模拟已登录
+      localStorage.setItem('user', JSON.stringify({
+        username: 'testuser',
+        phone: '13800138000',
+        email: 'test@163.com'
+      }));
+      this.$router.push('/profile'); // 跳转到个人信息页或首页
     }
   },
   template: `
@@ -264,6 +281,7 @@ const LoginView = {
             <label for="rememberMe">记住密码</label>
           </div>
           <button class="main-btn" @click="handleLogin">登录</button>
+          <button class="main-btn" @click="testLogin">测试账号直通</button>
           <div class="switch-tip">
             没有账号？<a href="javascript:void(0)" @click="showLogin=false">注册</a>
           </div>
@@ -291,6 +309,7 @@ const LoginView = {
             <button class="refresh-btn" @click="refreshRegisterCode">刷新</button>
           </div>
           <button class="main-btn" @click="handleRegister">注册</button>
+          
           <div class="switch-tip">
             已有账号？<a href="javascript:void(0)" @click="showLogin=true">登录</a>
           </div>
