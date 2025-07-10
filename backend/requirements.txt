@@ -1,0 +1,9 @@
+Flask
+Flask-RESTful
+requests
+opencv-python # 如果你的cv2是opencv-python
+Pillow
+websocket-client # 用于test2.py的websocket
+# 如果要处理CORS，还需要安装 Flask-CORS
+Flask-CORS
+python-dotenv # 用于加载 .env 文件中的环境变量
